@@ -1,0 +1,31 @@
+
+<h1>Screen Recorder Testing</h1>
+
+<div style="display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;">
+
+  <div style="float: left;border:2px solid red;" class = 'videoPlayer'>
+  
+    <!-- current recording screen -->
+    <video class="recording" autoplay width="500px" 
+           height="500px" #videoPlayer *ngIf="!showRecPlayer"></video>
+    
+    <!-- show the recording to user -->
+    <video class="output" autoplay controls width="500px" 
+           height="500px" #recorderPlayer *ngIf="showRecPlayer"></video>
+  
+  </div>
+  
+  <div>
+   
+    <button class="start-btn" (click)="recordScreen()">Start Recording</button>
+    <button class="stop-btn" (click) = "stopRecoding()">Stop Recording</button>
+    <a href="#" download="output.mp4" 
+       class="download-anc" #downloadLink>Download</a>
+  </div>
+  
+
+
+</div>
