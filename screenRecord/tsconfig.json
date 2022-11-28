@@ -18,7 +18,7 @@
     //   "es2018",
     //   "dom"
     // ],
-    "types": ["gapi", "googlemaps"],
+    "types": ["gapi", "googlemaps", "gapi.auth2"],
     "lib": ["dom", "dom.iterable", "esnext"]
   },
   "angularCompilerOptions": {

@@ -26,10 +26,12 @@ export class LoginComponent implements OnInit {
   }
 
  gapiLoaded() {
+  // @ts-ignore
     gapi.load('client', this.initializeGapiClient);
  }
  
 async initializeGapiClient() {
+  // @ts-ignore
     await gapi.client.init({
         apiKey: environment.API_KEY,
         discoveryDocs: environment.DISCOVERY_DOCS,
@@ -54,19 +56,20 @@ handleAuthClick() {
       //set accees toke n to localstorage
       if(resp.access_token){
         localStorage.setItem('acces_token',resp.access_token);
-        let folder_exist:any = this.checkFolder();
-        console.log(folder_exist);
+        this.checkFolder();
+        // console.log(folder_exist);
 
 
-        if(!folder_exist){
-          this.createFolder();
-          console.log('folder created');
-        }
-        // this.router.navigate(['record']);
+        // if(!folder_exist){
+        //   this.createFolder();
+        //   console.log('folder created');
+        // }
+        this.router.navigate(['record']);
       }
       console.log('Sign-in Successful');
   };
 
+  // @ts-ignore
   if (gapi.client.getToken() === null) {
       this.tokenClient.requestAccessToken({ prompt: 'consent' });
   } else {
@@ -75,6 +78,7 @@ handleAuthClick() {
 }
 
 handleSignoutClick() {
+  // @ts-ignore
   let token = gapi.client.getToken();
   if (token !== null) {
     // @ts-ignore
@@ -84,28 +88,46 @@ handleSignoutClick() {
 }
 
  checkFolder() {
+  console.log('check folder')
   // @ts-ignore
   gapi.client.drive.files.list({
       // give name of the folder to check
       'q': 'name = "Screen_Recorder"',
   }).then(function (response) {
+    console.log(response)
       var files = response.result.files;
       if (files && files.length > 0) {
           for (var i = 0; i < files.length; i++) {
               var file = files[i];
               console.log('Folder Available');
-              return true;
           }
       } else {
           // if folder not available
           console.log('Folder not available');
-          return false;
+          //create new folder
+          gapi.client.request({
+            'path': 'drive/v2/files',
+            'method': 'POST',
+            'headers': {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('acces_token'),
+            },
+            'body': {
+                'title': 'Screen_Recorder',
+                'mimeType': 'application/vnd.google-apps.folder'
+            }
+        }).execute((response)=>{
+          console.log(response);
+          console.log('folder created')
+        });
+
       }
   })
 }
 
 createFolder() {
   var access_token = gapi.auth.getToken().access_token;
+  // @ts-ignore
   var request = gapi.client.request({
       'path': 'drive/v2/files',
       'method': 'POST',
@@ -125,7 +147,8 @@ createFolder() {
 }
 
 getAccesToken(){
-  console.log(gapi.auth.getToken().access_token)
+  // @ts-ignore
+  // console.log(gapi.auth.getToken().access_token)
 }
 
 }
