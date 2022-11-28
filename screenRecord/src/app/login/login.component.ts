@@ -99,6 +99,7 @@ handleSignoutClick() {
       if (files && files.length > 0) {
           for (var i = 0; i < files.length; i++) {
               var file = files[i];
+              localStorage.setItem('folder_id', file.id);
               console.log('Folder Available');
           }
       } else {

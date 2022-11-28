@@ -103,14 +103,15 @@ let data = [];
 
     let newDate = new Date();
 
+    console.log(this.blobFile);
+    // console.log(); return 0;
     // @ts-ignore
-    let uploadFile_name = "screen_capture_"+newDate.today() + "_" + newDate.timeNow();
-
+    let uploadFile_name = "screen_capture_" + newDate.getMilliseconds();
     // set file metadata
     var metadata = {
-        name: 'uploadFile_name.mp4',
+        name: uploadFile_name+".mp4",
         mimeType: 'video/mp4',
-        parents: ['Screen_Recorder']
+        parents: [localStorage.getItem('folder_id')]
     };
     var formData = new FormData();
     formData.append("metadata", new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
@@ -118,7 +119,7 @@ let data = [];
     formData.append("file", this.blobFile);
     fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart", {
         method: 'POST',
-        headers: new Headers({ "Authorization": "Bearer " + gapi.auth.getToken().access_token }),
+        headers: new Headers({ "Authorization": "Bearer " + localStorage.getItem('acces_token') }),
         body: formData
     }).then(function (response) {
       console.log(response)
