@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RecordScreenComponent } from './record-screen/record-screen.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RecordScreenComponent
+    RecordScreenComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

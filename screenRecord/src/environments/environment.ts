@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  CLIENT_ID :"89153575471-hb8q4rqus0khkj55aqo0i07qs44q73o0.apps.googleusercontent.com",
+  API_SECRET :"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",
+  API_KEY :"AIzaSyD8SEe7S4z4PV_zHDqAOUDXvG1lrGABwCA",
+  DISCOVERY_DOCS :["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+  SCOPES : 'https://www.googleapis.com/auth/drive'
 };
 
 /*
@@ -14,3 +19,11 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+// const gapi_clied_id = "89153575471-hb8q4rqus0khkj55aqo0i07qs44q73o0.apps.googleusercontent.com";
+// const gapi_clied_secret = "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";
+// const gapi_api_key = "AIzaSyD8SEe7S4z4PV_zHDqAOUDXvG1lrGABwCA";
+// const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
+
+export const gapiEnv = {
+
+}

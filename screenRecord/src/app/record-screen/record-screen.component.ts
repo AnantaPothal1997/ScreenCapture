@@ -8,7 +8,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 })
 export class RecordScreenComponent implements OnInit {
 
+  MediaRecorder:any;
+  navigator = <any>navigator;
   recording: any;
+  blobFile:any;
   @ViewChild('videoPlayer') videoplayer: ElementRef;
   @ViewChild('recorderPlayer') recPlayer: ElementRef;
   @ViewChild('downloadLink') downloadLink: ElementRef;
@@ -29,7 +32,7 @@ export class RecordScreenComponent implements OnInit {
 
 let data = [];
 
-    this.recording = navigator.mediaDevices.getDisplayMedia({
+    this.recording = this.navigator.mediaDevices.getDisplayMedia({
       video: {
           // mediaSource: true,
       },
@@ -57,7 +60,7 @@ let data = [];
     
           // For a fresh start
           data = []
-    
+     
           /* Push the recorded data to data array 
             when data available */
           this.recorder.ondataavailable = (e) => {
@@ -72,6 +75,8 @@ let data = [];
     
               // Convert the blob data to a url
               let url = URL.createObjectURL(blobData)
+
+              this.blobFile = blobData;
     
               // Assign the url to the output video tag and anchor 
               this.recPlayer.nativeElement.src = url
@@ -87,6 +92,41 @@ let data = [];
   stopRecoding(){
     this.recorder.stop();
     this.showRecPlayer = true;
+  }
+
+  uploadFileToDrive(){
+    this.upload();
+  }
+
+  upload() {
+
+
+    let newDate = new Date();
+
+    // @ts-ignore
+    let uploadFile_name = "screen_capture_"+newDate.today() + "_" + newDate.timeNow();
+
+    // set file metadata
+    var metadata = {
+        name: 'uploadFile_name.mp4',
+        mimeType: 'video/mp4',
+        parents: ['Screen_Recorder']
+    };
+    var formData = new FormData();
+    formData.append("metadata", new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+    // set file as blob formate
+    formData.append("file", this.blobFile);
+    fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart", {
+        method: 'POST',
+        headers: new Headers({ "Authorization": "Bearer " + gapi.auth.getToken().access_token }),
+        body: formData
+    }).then(function (response) {
+      console.log(response)
+        return response.json();
+    }).then(function (value) {
+        console.log(value);
+        // file is uploaded
+    });
   }
 
 }

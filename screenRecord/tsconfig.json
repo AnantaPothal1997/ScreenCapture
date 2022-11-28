@@ -14,9 +14,17 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "lib": [
-      "es2018",
-      "dom"
+    // "lib": [
+    //   "es2018",
+    //   "dom"
+    // ],
+    "types": ["gapi", "googlemaps"],
+    "lib": ["dom", "dom.iterable", "esnext"]
+  },
+  "angularCompilerOptions": {
+    //......
+    "types": [
+      "node"
     ]
   }
 }
